@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { createShortUrl } from "./actions/items/actions";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleShortenUrl = async (e) => {
+  const handleShortenUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const shortUrl = await createShortUrl(url);
     setLoading(false);
