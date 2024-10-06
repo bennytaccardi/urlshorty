@@ -1,12 +1,15 @@
 "use server";
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { getItemsByShorty } from "../actions/items/actions";
+import { redirect } from "next/navigation";
 
 export async function GET(
   req: NextRequest,
   context: { params: { shorty: string } }
 ) {
   const { shorty } = context.params;
-  console.log(shorty);
-  return NextResponse.json({ result: shorty });
+  const originalUrl = await getItemsByShorty(shorty);
+  console.log(originalUrl);
+  redirect(originalUrl);
 }

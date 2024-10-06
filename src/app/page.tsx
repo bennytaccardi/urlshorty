@@ -10,17 +10,7 @@ export default function Home() {
 
   const handleShortenUrl = async (e) => {
     e.preventDefault();
-    // setLoading(true);
-    // // Simulate an API call to shorten URL
-    // setTimeout(() => {
-    //   const generatedShortUrl = `https://short.ly/${Math.random()
-    //     .toString(36)
-    //     .substring(2, 7)}`;
-    //   setShortUrl(generatedShortUrl);
-    //   setLoading(false);
-    // }, 1000);
-    const shortUrl = await createShortUrl("");
-    console.log(shortUrl);
+    const shortUrl = await createShortUrl(url);
     setLoading(false);
     setShortUrl(shortUrl);
   };
@@ -54,7 +44,7 @@ export default function Home() {
           <div className="mt-6 bg-gray-100 p-4 rounded-md text-center">
             <p className="text-lg">Your shortened URL:</p>
             <a
-              href={shortUrl}
+              href={url}
               className="text-indigo-600 font-medium hover:underline"
               target="_blank"
               rel="noopener noreferrer"

@@ -1,7 +1,9 @@
+"use server";
+
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
-const dbSingleton = () => {
+export const createClient = () => {
   const cookieStore = cookies();
   const supabase = createServerComponentClient({
     cookies: () => cookieStore,
@@ -9,4 +11,4 @@ const dbSingleton = () => {
   return supabase;
 };
 
-export const db = dbSingleton();
+// export const db = dbSingleton();

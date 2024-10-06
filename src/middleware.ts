@@ -5,6 +5,8 @@ export function middleware(request: NextRequest) {
   // Log the current request pathname
   const headers = new Headers(request.headers);
   headers.set("x-current-hostname", request.nextUrl.hostname);
+  headers.set("x-current-port", request.nextUrl.port);
+  headers.set("x-current-protocol", request.nextUrl.protocol);
   return NextResponse.next({ request: { headers } });
 }
 
