@@ -23,9 +23,10 @@ export async function createShortUrl(url: string): Promise<string> {
   const headerList = headers();
   const hostname = headerList.get("x-current-hostname");
   const protocol = headerList.get("x-current-protocol");
-  const port = headerList.get("x-current-port")
-    ? `:${headerList.get("x-current-port")}`
-    : null;
+  const port =
+    headerList.get("x-current-port") !== ""
+      ? `:${headerList.get("x-current-port")}`
+      : null;
   const randomString = (length = 6) =>
     Math.random()
       .toString(20)

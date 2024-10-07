@@ -76,14 +76,12 @@ export default function Home() {
               <ClipboardBtn handleCopyToClipboard={handleCopyToClipboard} />
             </div>
 
-            {/* Copied message */}
             {copied && (
               <p className="text-green-500 mt-2 animate-pulse">
                 Copied to clipboard!
               </p>
             )}
 
-            {/* Social Sharing Buttons */}
             <div className="mt-6 flex justify-center gap-6">
               <SocialButtons shortUrl={shortUrl} />
             </div>
