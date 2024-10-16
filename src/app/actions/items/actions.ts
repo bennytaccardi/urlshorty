@@ -39,8 +39,8 @@ export async function createShortUrl(url: string): Promise<string> {
     short_url: shortUrl,
     short_key: shortKey,
   });
-  console.log(error);
   if (!error) {
+    console.log("Metric logging...");
     appContext.service.requestCounter.labels("test").inc();
     console.log("Metric logged");
   }
