@@ -13,7 +13,8 @@ export default function Home() {
 
   const handleShortenUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true); // Show loading spinner while shortening URL
+    setLoading(true);
+
     const shortUrl = await createShortUrl(url);
     setShortUrl(shortUrl);
     setLoading(false); // Remove loading spinner after shortening
