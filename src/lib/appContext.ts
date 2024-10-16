@@ -9,7 +9,7 @@ const requestCounter = new Counter({
   registers: [registry],
   labelNames: ["short_key"],
 });
-
+registry.registerMetric(requestCounter);
 export const appContext = {
   service: {
     requestCounter,
