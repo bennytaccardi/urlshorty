@@ -1,32 +1,36 @@
+// appContext.ts
 import { collectDefaultMetrics, Counter, Registry } from "prom-client";
 
-interface AppContext {
-  service: {
+class AppContext {
+  private static instance: AppContext;
+  public service: {
     requestCounter: Counter;
   };
-  registry: Registry;
+  public registry: Registry;
+
+  private constructor() {
+    this.registry = new Registry();
+
+    // Collect default metrics
+    collectDefaultMetrics({ register: this.registry });
+
+    // Define the custom counter
+    this.service = {
+      requestCounter: new Counter({
+        name: "generated_url",
+        help: "Total number of generated URLs",
+        registers: [this.registry],
+        labelNames: ["short_key"],
+      }),
+    };
+  }
+
+  public static getInstance(): AppContext {
+    if (!AppContext.instance) {
+      AppContext.instance = new AppContext();
+    }
+    return AppContext.instance;
+  }
 }
-let appContext: AppContext | null = null;
 
-if (!appContext) {
-  const registry = new Registry();
-
-  // Collect default metrics
-  collectDefaultMetrics({ register: registry });
-
-  // Define your custom counter
-  const requestCounter = new Counter({
-    name: "generated_url",
-    help: "Total number of generated URLs",
-    registers: [registry],
-  });
-
-  appContext = {
-    service: {
-      requestCounter,
-    },
-    registry,
-  };
-}
-
-export { appContext };
+export const appContext = AppContext.getInstance();
