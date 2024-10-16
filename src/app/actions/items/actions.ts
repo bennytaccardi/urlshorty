@@ -39,7 +39,7 @@ export async function createShortUrl(url: string): Promise<string> {
     short_url: shortUrl,
     short_key: shortKey,
   });
-  appContext.service.requestCounter.labels("test").inc(1);
+  appContext.service.requestCounter.inc(1);
   // if (!error) {
   //   appContext.service.requestCounter.labels("test").inc(1);
   // }
