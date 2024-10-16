@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { createShortUrl } from "./actions/items/actions";
 import { SocialButtons } from "@/components/ui/social-buttons";
 import { ClipboardBtn } from "@/components/ui/clipboard-btn";
+import { appContext } from "@/lib/appContext";
 
 export default function Home() {
   const [url, setUrl] = useState("");
@@ -15,7 +16,10 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
 
-    const shortUrl = await createShortUrl(url);
+    const shortUrl = await createShortUrl(
+      url,
+      appContext!.service.requestCounter
+    );
     setShortUrl(shortUrl);
     setLoading(false); // Remove loading spinner after shortening
   };

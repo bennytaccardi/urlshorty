@@ -1,8 +1,8 @@
 "use server";
 
 import { createClient } from "@/db/client";
-import { appContext } from "@/lib/appContext";
 import { headers } from "next/headers";
+import { Counter } from "prom-client";
 
 export async function getAllItems() {
   const db = await createClient();
@@ -19,7 +19,10 @@ export async function getItemsByShorty(shorty: string): Promise<string> {
   return response.data.url;
 }
 
-export async function createShortUrl(url: string): Promise<string> {
+export async function createShortUrl(
+  url: string,
+  requestCounter: Counter
+): Promise<string> {
   const db = await createClient();
   const headerList = headers();
   const hostname = headerList.get("x-current-hostname");
@@ -39,7 +42,7 @@ export async function createShortUrl(url: string): Promise<string> {
     short_url: shortUrl,
     short_key: shortKey,
   });
-  appContext!.service.requestCounter.inc(1);
+  requestCounter.inc(1);
   // if (!error) {
   //   appContext.service.requestCounter.labels("test").inc(1);
   // }
