@@ -34,7 +34,7 @@ export async function createShortUrl(url: string): Promise<string> {
       .slice(2, length + 2);
   const shortKey = randomString();
   const shortUrl = `${protocol}//${hostname}${port}/${shortKey}`;
-  const { error } = await db.from("items").insert({
+  await db.from("items").insert({
     url,
     short_url: shortUrl,
     short_key: shortKey,
