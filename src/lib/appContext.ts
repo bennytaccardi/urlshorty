@@ -20,7 +20,6 @@ class AppContext {
         name: "generated_url",
         help: "Total number of generated URLs",
         registers: [this.registry],
-        labelNames: ["short_key"],
       }),
     };
   }
