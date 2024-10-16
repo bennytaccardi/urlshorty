@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/db/client";
+import { appContext } from "@/lib/appContext";
 import { headers } from "next/headers";
 
 export async function getAllItems() {
@@ -39,7 +40,9 @@ export async function createShortUrl(url: string): Promise<string> {
     short_key: shortKey,
   });
   console.log(error);
-  // if (!error) {
-  // }
+  if (!error) {
+    appContext.service.requestCounter.labels("test").inc();
+    console.log("Metric logged");
+  }
   return shortUrl;
 }
