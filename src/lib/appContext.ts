@@ -22,4 +22,6 @@ declare global {
   var appContextGlobal: ReturnType<typeof initAppContext> | undefined;
 }
 
-export const appContext = (globalThis.appContextGlobal ??= initAppContext());
+const appContext = globalThis.appContextGlobal ?? initAppContext();
+globalThis.appContextGlobal = appContext;
+export { appContext };

@@ -39,7 +39,6 @@ export async function createShortUrl(url: string): Promise<string> {
     short_url: shortUrl,
     short_key: shortKey,
   });
-  console.log("Dovrei incrementare");
   appContext.service.requestCounter.inc(1);
   // if (!error) {
   //   appContext.service.requestCounter.labels("test").inc(1);
