@@ -39,6 +39,9 @@ export async function createShortUrl(url: string): Promise<string> {
     short_url: shortUrl,
     short_key: shortKey,
   });
+  console.log(JSON.stringify(appContext));
+  console.log(JSON.stringify(appContext.service));
+  console.log(JSON.stringify(appContext.service.requestCounter));
   appContext.service.requestCounter.inc(1);
   // if (!error) {
   //   appContext.service.requestCounter.labels("test").inc(1);

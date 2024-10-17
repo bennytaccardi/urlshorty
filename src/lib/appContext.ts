@@ -9,7 +9,7 @@ const initAppContext = () => {
     help: "Total number of generated URLs",
     registers: [registry], // Registering to your custom registry
   });
-  requestCounter.inc(3);
+
   return {
     service: {
       requestCounter,
