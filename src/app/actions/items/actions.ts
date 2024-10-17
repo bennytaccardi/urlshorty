@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
 import { createClient } from "@/db/client";
@@ -21,29 +22,29 @@ export async function getItemsByShorty(shorty: string): Promise<string> {
 }
 
 export async function createShortUrl(url: string): Promise<string> {
-  const db = await createClient();
-  const headerList = headers();
-  const hostname = headerList.get("x-current-hostname");
-  const protocol = headerList.get("x-current-protocol");
-  const port =
-    headerList.get("x-current-port") !== ""
-      ? `:${headerList.get("x-current-port")}`
-      : "";
-  const randomString = (length = 6) =>
-    Math.random()
-      .toString(20)
-      .slice(2, length + 2);
-  const shortKey = randomString();
-  const shortUrl = `${protocol}//${hostname}${port}/${shortKey}`;
-  await db.from("items").insert({
-    url,
-    short_url: shortUrl,
-    short_key: shortKey,
-  });
+  // const db = await createClient();
+  // const headerList = headers();
+  // const hostname = headerList.get("x-current-hostname");
+  // const protocol = headerList.get("x-current-protocol");
+  // const port =
+  //   headerList.get("x-current-port") !== ""
+  //     ? `:${headerList.get("x-current-port")}`
+  //     : "";
+  // const randomString = (length = 6) =>
+  //   Math.random()
+  //     .toString(20)
+  //     .slice(2, length + 2);
+  // const shortKey = randomString();
+  // const shortUrl = `${protocol}//${hostname}${port}/${shortKey}`;
+  // await db.from("items").insert({
+  //   url,
+  //   short_url: shortUrl,
+  //   short_key: shortKey,
+  // });
 
   appContext.service.requestCounter.inc(1);
   // if (!error) {
   //   appContext.service.requestCounter.labels("test").inc(1);
   // }
-  return shortUrl;
+  return "test ";
 }
