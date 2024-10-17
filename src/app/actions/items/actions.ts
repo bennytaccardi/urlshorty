@@ -40,12 +40,7 @@ export async function createShortUrl(url: string): Promise<string> {
     short_key: shortKey,
   });
 
-  console.log(appContext.service.requestCounter);
-  try {
-    appContext.service.requestCounter.inc(1);
-  } catch (error) {
-    console.error("Failed to increment counter:", error);
-  }
+  appContext.service.requestCounter.inc(1);
   // if (!error) {
   //   appContext.service.requestCounter.labels("test").inc(1);
   // }
