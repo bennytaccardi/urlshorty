@@ -10,6 +10,7 @@ export async function getAllItems() {
 }
 
 export async function getItemsByShorty(shorty: string): Promise<string> {
+  appContext.service.requestCounter.inc(1);
   const db = await createClient();
   const response = await db
     .from("items")
