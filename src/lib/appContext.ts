@@ -1,3 +1,5 @@
+"use server";
+
 import { collectDefaultMetrics, Counter, Registry } from "prom-client";
 
 const initAppContext = () => {
@@ -17,12 +19,10 @@ const initAppContext = () => {
     registry,
   };
 };
-const globalContext = globalThis as unknown as {
-  appContextGlobal?: ReturnType<typeof initAppContext>;
-};
-
-if (!globalContext.appContextGlobal) {
-  globalContext.appContextGlobal = initAppContext();
+declare global {
+  // eslint-disable-next-line no-var
+  var appContextGlobal: ReturnType<typeof initAppContext> | undefined;
 }
 
-export const appContext = globalContext.appContextGlobal;
+export const appContext = globalThis.appContextGlobal ?? initAppContext();
+globalThis.appContextGlobal = appContext;
