@@ -1,5 +1,3 @@
-"use server";
-
 import { collectDefaultMetrics, Counter, Registry } from "prom-client";
 
 const initAppContext = () => {
