@@ -1,16 +1,16 @@
 "use server";
 
-import { createClient } from "@/db/client";
+import { getDbClient } from "@/db/client";
 import { appContext } from "@/lib/appContext";
 import { headers } from "next/headers";
 
 export async function getAllItems() {
-  const db = await createClient();
+  const db = await getDbClient();
   return db.from("items").select();
 }
 
 export async function getItemsByShorty(shorty: string): Promise<string> {
-  const db = createClient();
+  const db = await getDbClient();
   const response = await db
     .from("items")
     .select()
@@ -20,7 +20,7 @@ export async function getItemsByShorty(shorty: string): Promise<string> {
 }
 
 export async function createShortUrl(url: string): Promise<string> {
-  const db = createClient();
+  const db = await getDbClient();
   const headerList = headers();
   const hostname = headerList.get("x-current-hostname");
   const protocol = headerList.get("x-current-protocol");

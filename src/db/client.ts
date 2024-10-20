@@ -1,7 +1,9 @@
+"use server";
+
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
-export const createClient = () => {
+const createClient = async () => {
   const cookieStore = cookies();
   const supabase = createServerComponentClient({
     cookies: () => cookieStore,
@@ -14,5 +16,11 @@ declare global {
   var dbClientContextGlobal: ReturnType<typeof createClient> | undefined;
 }
 
-export const dbClient = globalThis.dbClientContextGlobal ?? createClient();
-globalThis.dbClientContextGlobal = dbClient;
+export const getDbClient = async (): Promise<
+  ReturnType<typeof createClient>
+> => {
+  if (!globalThis.dbClientContextGlobal) {
+    globalThis.dbClientContextGlobal = createClient();
+  }
+  return globalThis.dbClientContextGlobal;
+};
