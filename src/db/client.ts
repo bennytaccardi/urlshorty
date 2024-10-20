@@ -11,4 +11,10 @@ export const createClient = () => {
   return supabase;
 };
 
-// export const db = dbSingleton();
+declare global {
+  // eslint-disable-next-line no-var
+  var dbClientContextGlobal: ReturnType<typeof createClient> | undefined;
+}
+
+export const dbClient = globalThis.dbClientContextGlobal ?? createClient();
+globalThis.dbClientContextGlobal = dbClient;

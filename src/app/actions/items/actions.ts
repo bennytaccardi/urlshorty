@@ -10,8 +10,7 @@ export async function getAllItems() {
 }
 
 export async function getItemsByShorty(shorty: string): Promise<string> {
-  appContext.service.requestCounter.inc(1);
-  const db = await createClient();
+  const db = createClient();
   const response = await db
     .from("items")
     .select()
@@ -21,7 +20,7 @@ export async function getItemsByShorty(shorty: string): Promise<string> {
 }
 
 export async function createShortUrl(url: string): Promise<string> {
-  const db = await createClient();
+  const db = createClient();
   const headerList = headers();
   const hostname = headerList.get("x-current-hostname");
   const protocol = headerList.get("x-current-protocol");
@@ -29,21 +28,34 @@ export async function createShortUrl(url: string): Promise<string> {
     headerList.get("x-current-port") !== ""
       ? `:${headerList.get("x-current-port")}`
       : "";
-  const randomString = (length = 6) =>
-    Math.random()
-      .toString(20)
-      .slice(2, length + 2);
-  const shortKey = randomString();
-  const shortUrl = `${protocol}//${hostname}${port}/${shortKey}`;
-  await db.from("items").insert({
+
+  const shortKey = generateRandomString();
+  const shortUrl = buildShortUrl(port, shortKey, protocol, hostname);
+  const { error } = await db.from("items").insert({
     url,
     short_url: shortUrl,
     short_key: shortKey,
   });
 
-  appContext.service.requestCounter.inc(1);
-  // if (!error) {
-  //   appContext.service.requestCounter.labels("test").inc(1);
-  // }
-  return shortUrl;
+  if (!error) {
+    appContext.service.requestCounter.inc(1);
+    return shortUrl;
+  } else {
+    throw new Error(error.message);
+  }
+}
+
+function generateRandomString(length = 6): string {
+  return Math.random()
+    .toString(20)
+    .slice(2, length + 2);
+}
+
+function buildShortUrl(
+  port: string,
+  shortKey: string,
+  protocol: string | null,
+  hostname: string | null
+): string {
+  return `${protocol}//${hostname}${port}/${shortKey}`;
 }
